@@ -34,3 +34,11 @@ let person2: Person = {
         country: "Nigeria"
     }
 }
+
+// const displayInfo = (person: Person) => {
+//     console.log(`${person.name} lives at ${person.address.street} years old`)
+// }
+
+// displayInfo(person1)
+
+let ages = [100, 120, 60, 32, "water"]
