@@ -6,28 +6,37 @@ type Pizza = {
     price: number
 }
 
+type NewPizza = {
+    name: string,
+    price: number,
+    id?: number
+}
+
 type Order = {
     pizza: Pizza
     status: "ordered" | "completed"
     id: number
 }
 
-const menu = [
-    {id: 1, name: "Margherita", price: 10},
-    {id: 2, name: "Pepperoni", price: 8},
-    {id: 3, name: "Howaiian", price: 10},
-    {id: 4, name: "Veggie", price: 6},
-]
-
 let cashInRegister = 100
 let orderID = 0
 const orderQueue: Order[] = []
+let pizzaID = 0
 
-const addNewPizza = (pizzaObject: Pizza) => {
-    menu.push(pizzaObject)
+const menu = [
+    {id: pizzaID++, name: "Margherita", price: 10},
+    {id: pizzaID++, name: "Pepperoni", price: 8},
+    {id: pizzaID++, name: "Howaiian", price: 10},
+    {id: pizzaID++, name: "Veggie", price: 6},
+]
+
+const addNewPizza = (pizzaObject: Omit<Pizza, "id">): Pizza => {
+        const newPizzaObject: Pizza = {...pizzaObject, id: pizzaID++}
+        menu.push(newPizzaObject)
+        return newPizzaObject
 }
 
-const placeOrder = (pizzaName: string) => {
+const placeOrder = (pizzaName: string): Order | undefined => {
     orderID += 1
     const currentOrder = menu.find((pizza) => pizza.name === pizzaName)
     if (!currentOrder) {
@@ -40,7 +49,7 @@ const placeOrder = (pizzaName: string) => {
     return orderObj
 } 
 
-const completeOrder = (orderId: number) => {
+const completeOrder = (orderId: number): Order | undefined => {
     const order = orderQueue.find((order) => order.id === orderId)
     if (!order) {
         console.error(`Order with id ${orderId} does not exist`)
@@ -51,18 +60,20 @@ const completeOrder = (orderId: number) => {
     return order
 }
 
-const getPizzaDetail = (identifier: number | string) => {
+const getPizzaDetail = (identifier: number | string): Pizza | undefined => {
     if (typeof identifier === "number") {
         return menu.find((pizza) => pizza.id === identifier)
     }
     if (typeof identifier === "string") {
         return menu.find((pizza) => pizza.name.toLocaleLowerCase() === identifier.toLocaleLowerCase())
+    } else {
+        throw new TypeError
     }
 }
 
-addNewPizza({name: "Chciken Bacon Ranch", price: 12, id: 5})
-addNewPizza({name: "BBQ Chicken", price: 12, id: 6})
-addNewPizza({name: "Spicy Sausage", price: 11, id: 7})
+addNewPizza({name: "Chciken Bacon Ranch", price: 12})
+addNewPizza({name: "BBQ Chicken", price: 12})
+addNewPizza({name: "Spicy Sausage", price: 11})
 
 placeOrder("Chicken Bacon Ranch")
 completeOrder(1)
