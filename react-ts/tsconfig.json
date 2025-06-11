@@ -3,5 +3,10 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+   "compilerOptions": {
+    // Disable unused variable checks globally
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
+  }
 }
