@@ -18,6 +18,12 @@ type Order = {
     id: number
 }
 
+const addToArray = <T> (array: T[], item:T): T[]=> {
+    array.push(item)
+    return array
+}
+
+
 let cashInRegister = 100
 let orderID = 0
 const orderQueue: Order[] = []
@@ -29,6 +35,9 @@ const menu = [
     {id: pizzaID++, name: "Howaiian", price: 10},
     {id: pizzaID++, name: "Veggie", price: 6},
 ]
+
+addToArray(menu, {id: pizzaID++, name: "BBQ Chicken", price: 12})
+addToArray<Order>(orderQueue, {id: orderID++, pizza: menu[2], status: "ordered"})
 
 const addNewPizza = (pizzaObject: Omit<Pizza, "id">): Pizza => {
         const newPizzaObject: Pizza = {...pizzaObject, id: pizzaID++}
@@ -71,9 +80,9 @@ const getPizzaDetail = (identifier: number | string): Pizza | undefined => {
     }
 }
 
-addNewPizza({name: "Chciken Bacon Ranch", price: 12})
-addNewPizza({name: "BBQ Chicken", price: 12})
-addNewPizza({name: "Spicy Sausage", price: 11})
+// addNewPizza({name: "Chciken Bacon Ranch", price: 12})
+// addNewPizza({name: "BBQ Chicken", price: 12})
+// addNewPizza({name: "Spicy Sausage", price: 11})
 
 placeOrder("Chicken Bacon Ranch")
 completeOrder(1)
